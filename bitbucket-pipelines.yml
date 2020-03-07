@@ -1,0 +1,41 @@
+image: giuseppemorelli/php-ci-cd:7.2
+
+stepdefinitions:
+  - build: &test
+      name: "Test"
+      caches:
+        - composer
+      script:
+        - composer self-update --stable
+        - composer validate
+        - composer install
+        - cp .env.testing .env
+        - php artisan config:cache
+        - php artisan key:generate
+        - php artisan config:cache
+        - composer tests-suite
+  - deploy: &deployproduction
+      name: "Deploy to production"
+      caches:
+        - composer
+      script:
+        - composer self-update --stable
+        - cd deploy/
+        - composer install
+        - vendor/bin/dep deploy production --revision=$CI_COMMIT_SHA --roles=webfront -vv
+      deployment: production
+
+pipelines:
+  default:
+    - step: *test
+  branches:
+    master:
+      - step: *test
+      - step: *deployproduction
+
+definitions:
+  services:
+    mysql:
+      image: mysql:5.7
+      environment:
+        MYSQL_ROOT_PASSWORD: 'test'

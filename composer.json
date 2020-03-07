@@ -63,6 +63,11 @@
         ],
         "tests-static": "phpcs --colors -s",
         "tests-mess-detector": "phpmd app text ruleset.xml",
-        "tests-unit": "phpunit -v"
+        "tests-unit": "phpunit -v",
+        "tests-suite": [
+            "@tests-static",
+            "@tests-mess-detector",
+            "@tests-unit"
+        ]
     }
 }
