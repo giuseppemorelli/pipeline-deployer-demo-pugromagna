@@ -10,12 +10,13 @@ cache:
         - /composer/cache
 
 before_script:
+    - composer self-update --stable
     - mkdir -p /composer /composer/cache
     - composer config cache-dir /composer/cache
-    - cp .env.testing .env
 
 test:coding_standard:
     script:
+        - composer validate
         - composer install
         - composer tests-static
     stage: test
