@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // phpcs:ignore Squiz.PHP.CommentedOutCode.Found
         // $schedule->command('inspire')->hourly();
     }
 

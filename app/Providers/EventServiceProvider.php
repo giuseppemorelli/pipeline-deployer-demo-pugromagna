@@ -25,6 +25,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
     public function boot()
     {
         parent::boot();

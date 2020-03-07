@@ -34,6 +34,7 @@ class Handler extends ExceptionHandler
      *
      * @throws \Exception
      */
+    // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
     public function report(Throwable $exception)
     {
         parent::report($exception);
@@ -48,6 +49,7 @@ class Handler extends ExceptionHandler
      *
      * @throws \Throwable
      */
+    // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
     public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
