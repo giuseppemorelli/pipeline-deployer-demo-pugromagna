@@ -30,7 +30,10 @@ test:test_unit:
     script:
         - composer install
         - cp .env.testing .env
+        # clear cache after copy file
+        - php artisan config:cache
         - php artisan key:generate
+        # clear cache after create key
         - php artisan config:cache
         - composer tests-unit
     stage: test
