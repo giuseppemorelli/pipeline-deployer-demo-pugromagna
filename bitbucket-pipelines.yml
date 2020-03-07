@@ -22,7 +22,7 @@ stepdefinitions:
         - composer self-update --stable
         - cd deploy/
         - composer install
-        - vendor/bin/dep deploy production --revision=$CI_COMMIT_SHA --roles=webfront -vv
+        - vendor/bin/dep deploy production --revision=$BITBUCKET_COMMIT --roles=webfront -vv
       deployment: production
 
 pipelines:
