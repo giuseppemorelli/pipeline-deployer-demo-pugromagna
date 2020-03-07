@@ -1,0 +1,52 @@
+image: giuseppemorelli/php-ci-cd:7.2
+
+stages:
+    - test
+    - deploy
+
+cache:
+    key: ${CI_PROJECT_PATH_SLUG}
+    paths:
+        - /composer/cache
+
+before_script:
+    - mkdir -p /composer /composer/cache
+    - composer config cache-dir /composer/cache
+    - cp .env.testing .env
+
+test:coding_standard:
+    script:
+        - composer install
+        - composer tests-static
+    stage: test
+
+test:phpmd:
+    script:
+        - composer install
+        - composer tests-mess-detector
+    stage: test
+
+test:test_unit:
+    script:
+        - composer install
+        - cp .env.testing .env
+        - php artisan key:generate
+        - php artisan config:cache
+        - composer tests-unit
+    stage: test
+
+deploy:production:
+    stage: deploy
+    before_script:
+        - mkdir -p ~/.ssh
+        - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+        - eval $(ssh-agent -s)
+        - ssh-add <(echo $SSH_PRIVATE_KEY_DEPLOY | base64 -d -)
+        - mkdir -p /composer /composer/cache
+        - composer config cache-dir /composer/cache
+    script:
+        - cd deploy
+        - composer install --no-dev
+        - vendor/bin/dep deploy production --revision=$CI_COMMIT_SHA --roles=webfront -vv
+    only:
+        - master

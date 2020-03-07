@@ -1,0 +1,7 @@
+{
+  "name": "gmdotnet/demo-laravel-deploy",
+  "require": {
+    "deployer/deployer": "6.3.0",
+    "giuseppemorelli/deployer-common": "0.1.0"
+  }
+}
