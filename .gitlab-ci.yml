@@ -19,7 +19,7 @@ test:coding_standard:
         - cat composer.json
         - composer validate
         - composer install
-        - composer tests-static
+        - vendor/bin/phpcs
     stage: test
 
 test:phpmd:
